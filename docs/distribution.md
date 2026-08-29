@@ -18,9 +18,27 @@ No paid Vercel plan required. Do **not** deploy AWS until the founder explicitly
 4. Framework preset should detect **Next.js**. `apps/web/vercel.json` sets install/build for npm workspaces:
    - **Install:** `cd ../.. && npm install`
    - **Build:** `cd ../.. && npm run build:packages && npm run build -w @shortlist/web`
-5. **Environment variables** — copy keys from [`.env.example`](../.env.example) into Vercel → Project → Settings → Environment Variables (at minimum `SESSION_SECRET` and `FEATURED_ADMIN_SECRET` for dev-like deploys; add Stripe keys when testing Featured checkout).
-6. Deploy. Hobby free tier is sufficient for POC traffic and Stripe webhooks.
+5. **Environment variables** — Vercel → Project → Settings → Environment Variables. Copy from [`.env.example`](../.env.example):
+   - **Required for POC:** `SESSION_SECRET`, `FEATURED_ADMIN_SECRET`
+   - **Optional (Featured checkout):** `STRIPE_SECRET_KEY`, `STRIPE_PRICE_FEATURED`, `STRIPE_WEBHOOK_SECRET`
+   - **Affiliate redirects (after you join programs):** `RAILWAY_AFFILIATE_URL`, `DIGITALOCEAN_AFFILIATE_URL`, `PINECONE_AFFILIATE_URL`
+   - **Not needed yet:** no `DATABASE_URL` or auth-provider secrets in the current scaffold (in-memory store + stub session). Add these only when P1 persistence lands.
+6. **Deploy.** Hobby free tier is sufficient for POC traffic and Stripe webhooks.
 7. **Stay on free tier** until product validation. AWS migration is founder-gated — see [Task.md](../Task.md).
+
+#### `apps/web/vercel.json` (already in repo)
+
+Monorepo install/build are pinned so Vercel does not run `next build` only inside `apps/web`:
+
+```json
+{
+  "framework": "nextjs",
+  "installCommand": "cd ../.. && npm install",
+  "buildCommand": "cd ../.. && npm run build:packages && npm run build -w @shortlist/web"
+}
+```
+
+If the import wizard ignores this file, set the same commands manually in Project Settings → General.
 
 Local parity before connecting Vercel:
 
@@ -47,16 +65,6 @@ Do **not** submit Shortlist to the [Claude software directory](https://support.c
 
 PulseMCP / Smithery / Stork are **indexes**, not an acquisition strategy. Do not build a paid “featured MCP directory.”
 
-## Example Cursor MCP config (local, after `npm run build`)
+## MCP install
 
-```json
-{
-  "mcpServers": {
-    "shortlist": {
-      "command": "node",
-      "args": ["apps/mcp/dist/index.js"],
-      "cwd": "<repo root>"
-    }
-  }
-}
-```
+Full copy-paste stdio config, build steps, `package_json_path`, and `search_tools` examples: **[mcp-install.md](./mcp-install.md)**.

@@ -7,9 +7,9 @@ This is **not** Kickbacks. We do not sell wait-state or spinner ads.
 ## What you get
 
 - Website (primary): browse 12 categories × 3 organic vendors, stack re-rank, tracked redirect, payout ledger stub, Featured self-serve.
-- Optional MCP: `search_tools({ category, stack_signals, package_json_path? })` — same ranker. When `stack_signals.packages` is omitted, MCP reads `package_json_path` or `./package.json` from cwd. Featured never outranks a better organic fit.
+- Optional MCP: `search_tools({ category, stack_signals, package_json_path? })` — same ranker. When `stack_signals.packages` is omitted, MCP reads `package_json_path` or `./package.json` from cwd. Featured never outranks a better organic fit. Install: [docs/mcp-install.md](docs/mcp-install.md).
 - Live public CPA (apply yourself): Railway (instant), DigitalOcean (CJ), Pinecone (PartnerStack). See [docs/affiliate-applications.md](docs/affiliate-applications.md).
-- Distribution rules: [docs/distribution.md](docs/distribution.md) — site first; do not list on Anthropic’s directory as an ad vehicle; Cursor Marketplace plugins stay free.
+- Distribution rules: [docs/distribution.md](docs/distribution.md) — site first; do not list on Anthropic’s directory as an ad vehicle; Cursor Marketplace plugins stay free. MCP install: [docs/mcp-install.md](docs/mcp-install.md).
 - **Hosting:** local + **Vercel free (Hobby)** — see [docs/distribution.md](docs/distribution.md) for GitHub → Vercel setup. **AWS only when founder OK.** See [Task.md](Task.md).
 
 ## Run (local)
@@ -23,12 +23,7 @@ npm run dev
 
 Open http://localhost:3000
 
-MCP after packages + mcp build:
-
-```bash
-npm run build -w @shortlist/mcp
-node apps/mcp/dist/index.js
-```
+MCP after packages + mcp build — see [docs/mcp-install.md](docs/mcp-install.md) for Cursor stdio config (`cwd` = repo root).
 
 ## Cash-out
 
