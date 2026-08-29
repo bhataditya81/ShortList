@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const category = session.metadata?.category;
     const offerId = session.metadata?.offerId;
     if (category && isCategoryId(category) && offerId) {
-      setFeatured(category, offerId);
+      await setFeatured(category, offerId);
     }
   }
   return NextResponse.json({ received: true });

@@ -45,6 +45,11 @@ Default: stay on free tier. AWS is optional and founder-gated.
 - [x] Cursor agents: `catalog-researcher`, `affiliate-tos`, `organic-ranker`, `shortlist-implementer`
 - [x] MCP `package_json_path` / auto-read `package.json` → `stack_signals` (#8)
 - [x] Vercel Hobby scaffold (`apps/web/vercel.json` + docs) — stay free until founder OK for AWS (#11)
+- [x] Cursor MCP install guide (`docs/mcp-install.md`) (#12)
+- [x] Postgres data-store with JSON fallback + `sql/schema.sql` (#6)
+- [x] Auth.js email credentials session (#7)
+- [x] TOS cashback checklist + `tos-check` catalog script (#9)
+- [x] Admin ledger import UI at `/admin/ledger` (#10)
 
 ```bash
 npm install
@@ -73,13 +78,13 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 | P0 | Pinecone via PartnerStack | [#3](https://github.com/bhataditya81/MoneyAgent/issues/3) |
 | P0 | Stripe Featured production | [#4](https://github.com/bhataditya81/MoneyAgent/issues/4) |
 | P0 | Stripe Connect cash-out $25 | [#5](https://github.com/bhataditya81/MoneyAgent/issues/5) |
-| P1 | Postgres data-store | [#6](https://github.com/bhataditya81/MoneyAgent/issues/6) |
-| P1 | Clerk / Auth.js | [#7](https://github.com/bhataditya81/MoneyAgent/issues/7) |
+| P1 | Postgres data-store | [#6](https://github.com/bhataditya81/MoneyAgent/issues/6) closed |
+| P1 | Clerk / Auth.js | [#7](https://github.com/bhataditya81/MoneyAgent/issues/7) closed |
 | P1 | MCP package.json stack_signals | [#8](https://github.com/bhataditya81/MoneyAgent/issues/8) closed |
-| P1 | TOS before tosCashbackOk | [#9](https://github.com/bhataditya81/MoneyAgent/issues/9) |
-| P1 | Ledger import UI | [#10](https://github.com/bhataditya81/MoneyAgent/issues/10) |
-| P2 | Stay on Vercel free; AWS only when ready | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
-| P2 | Cursor MCP install docs | [#12](https://github.com/bhataditya81/MoneyAgent/issues/12) |
+| P1 | TOS before tosCashbackOk | [#9](https://github.com/bhataditya81/MoneyAgent/issues/9) closed |
+| P1 | Ledger import UI | [#10](https://github.com/bhataditya81/MoneyAgent/issues/10) closed |
+| P2 | Stay on Vercel free; AWS only when ready | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) closed |
+| P2 | Cursor MCP install docs | [#12](https://github.com/bhataditya81/MoneyAgent/issues/12) closed |
 
 ### Explicit backlog bans
 

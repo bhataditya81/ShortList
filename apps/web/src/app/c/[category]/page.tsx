@@ -23,7 +23,7 @@ export default async function CategoryPage({
       region: q.region,
       budgetUsdMo: Number.isFinite(budget) ? budget : undefined,
     },
-    featuredOfferId: getFeaturedOfferId(category) ?? null,
+    featuredOfferId: (await getFeaturedOfferId(category)) ?? null,
   });
 
   return (

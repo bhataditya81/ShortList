@@ -44,7 +44,7 @@ server.tool(
         isError: true,
       };
     }
-    const featuredOfferId = getFeaturedOfferId(category) ?? null;
+    const featuredOfferId = (await getFeaturedOfferId(category)) ?? null;
     const mergedSignals = mergeStackSignalsFromPackageJson({
       stack_signals,
       package_json_path,

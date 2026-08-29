@@ -17,7 +17,7 @@ async function adminFeatured(formData: FormData) {
   if (!offer || offer.category !== category) {
     redirect("/featured?err=mismatch");
   }
-  setFeatured(category, offerId);
+  await setFeatured(category, offerId);
   redirect("/featured?ok=1");
 }
 
@@ -27,7 +27,7 @@ export default async function FeaturedPage({
   searchParams: Promise<{ err?: string; ok?: string }>;
 }) {
   const q = await searchParams;
-  const store = loadStore();
+  const store = await loadStore();
   const stripeReady = Boolean(process.env.STRIPE_SECRET_KEY && process.env.STRIPE_PRICE_FEATURED);
 
   return (

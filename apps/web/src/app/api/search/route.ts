@@ -20,7 +20,7 @@ export async function GET(req: Request) {
         ? Number(url.searchParams.get("budget"))
         : undefined,
     },
-    featuredOfferId: getFeaturedOfferId(category) ?? null,
+    featuredOfferId: (await getFeaturedOfferId(category)) ?? null,
   });
   return NextResponse.json(result);
 }

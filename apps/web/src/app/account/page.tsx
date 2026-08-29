@@ -13,8 +13,8 @@ async function logout() {
 export default async function AccountPage() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=/account");
-  const bal = userBalanceCents(user.id);
-  const store = loadStore();
+  const bal = await userBalanceCents(user.id);
+  const store = await loadStore();
   const clicks = store.clicks.filter((c) => c.userId === user.id).slice(-20).reverse();
   const ledger = store.ledger.filter((l) => l.userId === user.id).reverse();
 
@@ -57,7 +57,12 @@ export default async function AccountPage() {
       </ul>
       <h2>Payout ledger</h2>
       <ul className="plain">
-        {ledger.length === 0 ? <li className="meta">Empty — import a conversion via POST /api/ledger/confirm</li> : null}
+        {ledger.length === 0 ? (
+          <li className="meta">
+            Empty — import a conversion on the{" "}
+            <Link href="/admin/ledger">ledger import</Link> page (admin).
+          </li>
+        ) : null}
         {ledger.map((row) => (
           <li key={row.id}>
             {row.status} · ${(row.amountCents / 100).toFixed(2)} · {getOffer(row.offerId)?.name} ·{" "}

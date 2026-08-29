@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "clickId and amountCents required" }, { status: 400 });
   }
   const userShare = Math.round(body.amountCents * 0.7);
-  const entry = confirmConversion({
+  const entry = await confirmConversion({
     clickId: body.clickId,
     amountCents: userShare,
     note: body.note ?? "70% user share of affiliate commission (platform keeps 30%)",
@@ -20,6 +20,6 @@ export async function POST(req: Request) {
   if (!entry) {
     return NextResponse.json({ error: "click not found" }, { status: 404 });
   }
-  markPayableIfEligible(entry.userId);
+  await markPayableIfEligible(entry.userId);
   return NextResponse.json({ entry, platformShareCents: body.amountCents - userShare });
 }

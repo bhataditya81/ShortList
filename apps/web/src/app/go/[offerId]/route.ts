@@ -16,6 +16,6 @@ export async function GET(
   if (!offer) {
     return NextResponse.json({ error: "Unknown offer" }, { status: 404 });
   }
-  const click = recordClick(user.id, offer.id);
+  const click = await recordClick(user.id, offer.id);
   return NextResponse.redirect(new URL(`/r/${click.id}`, _req.url));
 }

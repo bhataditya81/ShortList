@@ -1,6 +1,7 @@
 import type { Offer } from "./types.js";
 
-/** Organic comparison catalog. tosCashbackOk is false until a program explicitly allows rebate. */
+/** Organic comparison catalog. tosCashbackOk is false until a program explicitly allows rebate.
+ *  See docs/tos-cashback-checklist.md before flipping any offer to true. */
 export const OFFERS: Offer[] = [
   {
     id: "clerk",

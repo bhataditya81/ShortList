@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ clickId: string }> },
 ) {
   const { clickId } = await params;
-  const store = loadStore();
+  const store = await loadStore();
   const click = store.clicks.find((c) => c.id === clickId);
   if (!click) {
     return NextResponse.json({ error: "Unknown click" }, { status: 404 });

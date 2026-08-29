@@ -1,154 +1,84 @@
-import { randomUUID } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+export {
+  CASH_OUT_MIN_CENTS,
+  type Click,
+  type LedgerEntry,
+  type LedgerStatus,
+  type StoreFile,
+  type User,
+} from "./types.js";
+
+import * as json from "./json-store.js";
+import * as pg from "./postgres-store.js";
 import type { CategoryId } from "@shortlist/catalog";
+import type { Click, LedgerEntry, StoreFile, User } from "./types.js";
 
-export const CASH_OUT_MIN_CENTS = 2500;
-
-export type LedgerStatus = "pending" | "confirmed" | "payable" | "paid";
-
-export type User = { id: string; email: string; createdAt: string };
-export type Click = {
-  id: string;
-  userId: string;
-  offerId: string;
-  createdAt: string;
-};
-export type LedgerEntry = {
-  id: string;
-  userId: string;
-  offerId: string;
-  clickId: string;
-  status: LedgerStatus;
-  amountCents: number;
-  note: string;
-  createdAt: string;
-};
-export type StoreFile = {
-  users: User[];
-  clicks: Click[];
-  ledger: LedgerEntry[];
-  featured: Partial<Record<CategoryId, string>>;
-};
-
-const empty = (): StoreFile => ({
-  users: [],
-  clicks: [],
-  ledger: [],
-  featured: {},
-});
+function usePostgres(): boolean {
+  return Boolean(process.env.DATABASE_URL);
+}
 
 export function defaultStorePath(): string {
-  if (process.env.SHORTLIST_DATA_PATH) return process.env.SHORTLIST_DATA_PATH;
-  const cwd = process.cwd();
-  if (cwd.includes("apps/web") || cwd.includes("apps\\web") || cwd.includes("apps/mcp") || cwd.includes("apps\\mcp")) {
-    return join(cwd, "..", "..", "data", "shortlist-store.json");
-  }
-  return join(cwd, "data", "shortlist-store.json");
+  return json.defaultStorePath();
 }
 
-export function loadStore(path = defaultStorePath()): StoreFile {
-  try {
-    return JSON.parse(readFileSync(path, "utf8")) as StoreFile;
-  } catch {
-    return empty();
-  }
+export async function loadStore(path?: string): Promise<StoreFile> {
+  if (usePostgres()) return pg.loadStore();
+  return json.loadStore(path);
 }
 
-export function saveStore(store: StoreFile, path = defaultStorePath()): void {
-  mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, JSON.stringify(store, null, 2), "utf8");
+export async function getOrCreateUser(email: string, path?: string): Promise<User> {
+  if (usePostgres()) return pg.getOrCreateUser(email);
+  return json.getOrCreateUser(email, path);
 }
 
-export function id(prefix: string): string {
-  return `${prefix}_${randomUUID().slice(0, 8)}`;
+export async function getUserById(userId: string, path?: string): Promise<User | null> {
+  if (usePostgres()) return pg.getUserById(userId);
+  return json.getUserById(userId, path);
 }
 
-export function getOrCreateUser(email: string, path = defaultStorePath()): User {
-  const store = loadStore(path);
-  const normalized = email.trim().toLowerCase();
-  let user = store.users.find((u) => u.email === normalized);
-  if (!user) {
-    user = { id: id("usr"), email: normalized, createdAt: new Date().toISOString() };
-    store.users.push(user);
-    saveStore(store, path);
-  }
-  return user;
+export async function recordClick(userId: string, offerId: string, path?: string): Promise<Click> {
+  if (usePostgres()) return pg.recordClick(userId, offerId);
+  return json.recordClick(userId, offerId, path);
 }
 
-export function recordClick(userId: string, offerId: string, path = defaultStorePath()): Click {
-  const store = loadStore(path);
-  const click: Click = {
-    id: id("clk"),
-    userId,
-    offerId,
-    createdAt: new Date().toISOString(),
-  };
-  store.clicks.push(click);
-  saveStore(store, path);
-  return click;
-}
-
-export function confirmConversion(opts: {
+export async function confirmConversion(opts: {
   clickId: string;
   amountCents: number;
   note?: string;
   path?: string;
-}): LedgerEntry | null {
-  const path = opts.path ?? defaultStorePath();
-  const store = loadStore(path);
-  const click = store.clicks.find((c) => c.id === opts.clickId);
-  if (!click) return null;
-  const entry: LedgerEntry = {
-    id: id("led"),
-    userId: click.userId,
-    offerId: click.offerId,
-    clickId: click.id,
-    status: "confirmed",
-    amountCents: opts.amountCents,
-    note: opts.note ?? "Imported from affiliate dashboard (stub)",
-    createdAt: new Date().toISOString(),
-  };
-  store.ledger.push(entry);
-  saveStore(store, path);
-  return entry;
+}): Promise<LedgerEntry | null> {
+  if (usePostgres()) return pg.confirmConversion(opts);
+  return json.confirmConversion(opts);
 }
 
-export function userBalanceCents(userId: string, path = defaultStorePath()): {
-  pending: number;
-  confirmed: number;
-  payable: number;
-  paid: number;
-} {
-  const store = loadStore(path);
-  const rows = store.ledger.filter((l) => l.userId === userId);
-  const sum = (status: LedgerStatus) =>
-    rows.filter((r) => r.status === status).reduce((a, r) => a + r.amountCents, 0);
-  return {
-    pending: sum("pending"),
-    confirmed: sum("confirmed"),
-    payable: sum("payable"),
-    paid: sum("paid"),
-  };
+export async function userBalanceCents(
+  userId: string,
+  path?: string,
+): Promise<{ pending: number; confirmed: number; payable: number; paid: number }> {
+  if (usePostgres()) return pg.userBalanceCents(userId);
+  return json.userBalanceCents(userId, path);
 }
 
-export function markPayableIfEligible(userId: string, path = defaultStorePath()): void {
-  const store = loadStore(path);
-  const confirmed = store.ledger.filter((l) => l.userId === userId && l.status === "confirmed");
-  const total = confirmed.reduce((a, r) => a + r.amountCents, 0);
-  if (total < CASH_OUT_MIN_CENTS) {
-    return;
+export async function markPayableIfEligible(userId: string, path?: string): Promise<void> {
+  if (usePostgres()) return pg.markPayableIfEligible(userId);
+  return json.markPayableIfEligible(userId, path);
+}
+
+export async function setFeatured(category: CategoryId, offerId: string, path?: string): Promise<void> {
+  if (usePostgres()) return pg.setFeatured(category, offerId);
+  return json.setFeatured(category, offerId, path);
+}
+
+export async function getFeaturedOfferId(category: CategoryId, path?: string): Promise<string | undefined> {
+  if (usePostgres()) return pg.getFeaturedOfferId(category);
+  return json.getFeaturedOfferId(category, path);
+}
+
+/** @deprecated Use loadStore — kept for callers that need sync JSON-only access. */
+export function saveStore(store: StoreFile, path?: string): void {
+  if (usePostgres()) {
+    throw new Error("saveStore is not supported when DATABASE_URL is set; use the typed APIs.");
   }
-  for (const row of confirmed) row.status = "payable";
-  saveStore(store, path);
+  json.saveStore(store, path);
 }
 
-export function setFeatured(category: CategoryId, offerId: string, path = defaultStorePath()): void {
-  const store = loadStore(path);
-  store.featured[category] = offerId;
-  saveStore(store, path);
-}
-
-export function getFeaturedOfferId(category: CategoryId, path = defaultStorePath()): string | undefined {
-  return loadStore(path).featured[category];
-}
+export { ensureSchema } from "./postgres-store.js";
