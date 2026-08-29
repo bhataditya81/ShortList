@@ -14,6 +14,13 @@ export type StackSignals = {
   budgetUsdMo?: number;
 };
 
+export {
+  mergeStackSignalsFromPackageJson,
+  parsePackageJsonForStackSignals,
+  resolvePackageJsonPath,
+  type ParsedPackageJsonSignals,
+} from "./parse-package-json.js";
+
 export type RankedOffer = Offer & { organicScore: number; reasons: string[] };
 
 export type SearchResult = {

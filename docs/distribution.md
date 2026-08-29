@@ -8,6 +8,27 @@
 
 Default: free tier until you say otherwise.
 
+### Vercel Hobby (free) — `apps/web`
+
+No paid Vercel plan required. Do **not** deploy AWS until the founder explicitly approves.
+
+1. Push this repo to GitHub (`github.com/bhataditya81/MoneyAgent`).
+2. In [Vercel](https://vercel.com/new), **Import** the GitHub repo.
+3. **Root Directory:** `apps/web` (monorepo — required so Next.js resolves correctly).
+4. Framework preset should detect **Next.js**. `apps/web/vercel.json` sets install/build for npm workspaces:
+   - **Install:** `cd ../.. && npm install`
+   - **Build:** `cd ../.. && npm run build:packages && npm run build -w @shortlist/web`
+5. **Environment variables** — copy keys from [`.env.example`](../.env.example) into Vercel → Project → Settings → Environment Variables (at minimum `SESSION_SECRET` and `FEATURED_ADMIN_SECRET` for dev-like deploys; add Stripe keys when testing Featured checkout).
+6. Deploy. Hobby free tier is sufficient for POC traffic and Stripe webhooks.
+7. **Stay on free tier** until product validation. AWS migration is founder-gated — see [Task.md](../Task.md).
+
+Local parity before connecting Vercel:
+
+```bash
+npm install
+npm run build
+```
+
 ## Primary surface
 
 The **website** (`apps/web`) is the product users can use without an IDE. MCP is optional.

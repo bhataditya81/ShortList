@@ -7,7 +7,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CATEGORIES, isCategoryId } from "@shortlist/catalog";
 import { getFeaturedOfferId } from "@shortlist/data-store";
-import { searchTools } from "@shortlist/ranker";
+import { mergeStackSignalsFromPackageJson, searchTools } from "@shortlist/ranker";
 import { z } from "zod";
 
 const stackSignals = z
@@ -30,8 +30,14 @@ server.tool(
   {
     category: z.string().describe(`One of: ${CATEGORIES.join(", ")}`),
     stack_signals: stackSignals.describe("Repo signals: language, package.json names, region, monthly budget"),
+    package_json_path: z
+      .string()
+      .optional()
+      .describe(
+        "Optional path to package.json (file or directory). When stack_signals.packages is omitted, reads this file or ./package.json from cwd.",
+      ),
   },
-  async ({ category, stack_signals }) => {
+  async ({ category, stack_signals, package_json_path }) => {
     if (!isCategoryId(category)) {
       return {
         content: [{ type: "text", text: `Unknown category: ${category}. Use one of ${CATEGORIES.join(", ")}` }],
@@ -39,9 +45,13 @@ server.tool(
       };
     }
     const featuredOfferId = getFeaturedOfferId(category) ?? null;
+    const mergedSignals = mergeStackSignalsFromPackageJson({
+      stack_signals,
+      package_json_path,
+    });
     const result = searchTools({
       category,
-      stack_signals,
+      stack_signals: mergedSignals,
       featuredOfferId,
     });
     return {

@@ -42,7 +42,9 @@ Default: stay on free tier. AWS is optional and founder-gated.
 - [x] Next site: browse, login, account ledger, Featured admin/Stripe hooks, `/go` → `/r` redirect
 - [x] Payout ledger stub; cash-out min **$25**; Connect onboard **501** until platform enabled
 - [x] Docs: `docs/affiliate-applications.md`, `docs/distribution.md`
-- [x] Cursor agents: `catalog-researcher`, `affiliate-tos`, `organic-ranker`
+- [x] Cursor agents: `catalog-researcher`, `affiliate-tos`, `organic-ranker`, `shortlist-implementer`
+- [x] MCP `package_json_path` / auto-read `package.json` → `stack_signals` (#8)
+- [x] Vercel Hobby scaffold (`apps/web/vercel.json` + docs) — stay free until founder OK for AWS (#11)
 
 ```bash
 npm install
