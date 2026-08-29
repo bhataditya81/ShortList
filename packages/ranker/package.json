@@ -1,0 +1,24 @@
+{
+  "name": "@shortlist/ranker",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node dist/assert-featured.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "assert-featured": "node dist/assert-featured.js"
+  },
+  "dependencies": {
+    "@shortlist/catalog": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

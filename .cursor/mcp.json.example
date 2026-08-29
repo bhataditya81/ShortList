@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "shortlist": {
+      "command": "node",
+      "args": ["apps/mcp/dist/index.js"]
+    }
+  }
+}
