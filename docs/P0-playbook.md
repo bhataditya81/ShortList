@@ -132,7 +132,7 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 
 **Close #4** when test checkout sets Featured without using only the admin form.
 
-**Caveat:** JSON data-store does **not** persist on Vercel serverless. Featured/webhook may “work” then vanish. For a durable Featured POC you need [#6](https://github.com/bhataditya81/MoneyAgent/issues/6) Postgres (P1, agents should ship). Until then, validate Featured in **local** or accept ephemeral demo.
+**Caveat:** Without `DATABASE_URL`, JSON storage does **not** persist on Vercel serverless. For a durable Featured/login POC on Hobby, add a free Neon `DATABASE_URL` (schema auto-applies). Local can omit it and use JSON.
 
 ---
 
@@ -167,8 +167,10 @@ Do this **after** #4 and preferably after #6 so balances persist.
 
 | Variable | Required for |
 |----------|----------------|
-| `SESSION_SECRET` | Login cookies |
-| `FEATURED_ADMIN_SECRET` | Admin Featured + ledger import |
+| `AUTH_SECRET` | Auth.js login (P1) — generate a long random string |
+| `SESSION_SECRET` | Legacy; prefer `AUTH_SECRET` |
+| `FEATURED_ADMIN_SECRET` | Admin Featured + ledger import `/admin/ledger` |
+| `DATABASE_URL` | Durable store on Vercel (Neon free OK). Omit locally to use JSON file |
 | `RAILWAY_AFFILIATE_URL` | #1 |
 | `DIGITALOCEAN_AFFILIATE_URL` | #2 |
 | `PINECONE_AFFILIATE_URL` | #3 |
