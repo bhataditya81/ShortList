@@ -9,6 +9,7 @@ export function OfferCard({
   kind: "organic" | "featured";
 }) {
   const cashback = offer.tosCashbackOk && offer.affiliateUrl;
+  const trackedOnly = Boolean(offer.affiliateUrl) && !offer.tosCashbackOk;
   return (
     <article className="card" style={{ marginBottom: "0.75rem" }}>
       <span className={`badge ${kind}`}>{kind === "featured" ? "Featured" : "Organic"}</span>
@@ -26,6 +27,10 @@ export function OfferCard({
         {cashback ? (
           <Link className="btn" href={`/go/${offer.id}`}>
             Get cashback link
+          </Link>
+        ) : trackedOnly ? (
+          <Link className="btn" href={`/go/${offer.id}`}>
+            Tracked signup (no cashback yet)
           </Link>
         ) : (
           <a className="btn secondary" href={offer.url} rel="noreferrer">

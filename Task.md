@@ -64,6 +64,8 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 
 ## Open work (GitHub issues)
 
+**P0 (founder):** detailed playbook → [`docs/P0-playbook.md`](docs/P0-playbook.md)
+
 | Priority | Issue | Link |
 |----------|-------|------|
 | P0 | Join Railway affiliate | [#1](https://github.com/bhataditya81/MoneyAgent/issues/1) |
@@ -73,7 +75,7 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 | P0 | Stripe Connect cash-out $25 | [#5](https://github.com/bhataditya81/MoneyAgent/issues/5) |
 | P1 | Postgres data-store | [#6](https://github.com/bhataditya81/MoneyAgent/issues/6) |
 | P1 | Clerk / Auth.js | [#7](https://github.com/bhataditya81/MoneyAgent/issues/7) |
-| P1 | MCP package.json stack_signals | [#8](https://github.com/bhataditya81/MoneyAgent/issues/8) |
+| P1 | MCP package.json stack_signals | [#8](https://github.com/bhataditya81/MoneyAgent/issues/8) closed |
 | P1 | TOS before tosCashbackOk | [#9](https://github.com/bhataditya81/MoneyAgent/issues/9) |
 | P1 | Ledger import UI | [#10](https://github.com/bhataditya81/MoneyAgent/issues/10) |
 | P2 | Stay on Vercel free; AWS only when ready | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
