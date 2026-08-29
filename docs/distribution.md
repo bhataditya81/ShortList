@@ -1,5 +1,10 @@
 # Distribution (do not treat MCP listing as the product)
 
+## Hosting
+
+1. **POC — local.** Run the Next app and MCP on your machine. No production CDN required.
+2. **Later — AWS.** Promote the same app to AWS (container or App Runner + managed Postgres). Keep env-based config so the cutover is config, not a rewrite. Production host is **not** Vercel.
+
 ## Primary surface
 
 The **website** (`apps/web`) is the product users can use without an IDE. MCP is optional.
