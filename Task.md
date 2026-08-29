@@ -69,7 +69,8 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 
 ## Open work (GitHub issues)
 
-**P0 (founder):** detailed playbook → [`docs/P0-playbook.md`](docs/P0-playbook.md)
+**P0 (founder):** detailed playbook → [`docs/P0-playbook.md`](docs/P0-playbook.md)  
+**Production readiness (3× Grok 4.6 reviews):** [`docs/production-readiness-report.md`](docs/production-readiness-report.md) — **NOT READY** for production
 
 | Priority | Issue | Link |
 |----------|-------|------|
