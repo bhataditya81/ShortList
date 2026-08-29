@@ -2,8 +2,9 @@
 
 ## Hosting
 
-1. **POC — local.** Run the Next app and MCP on your machine. No production CDN required.
-2. **Later — AWS.** Promote the same app to AWS (container or App Runner + managed Postgres). Keep env-based config so the cutover is config, not a rewrite. Production host is **not** Vercel.
+1. **Local** — day-to-day build and MCP (`localhost:3000`, `node apps/mcp/dist/index.js`).
+2. **POC public URL — Vercel free (Hobby) tier** — shareable HTTPS for demos and Stripe webhooks. Stay on free limits; do not pay for Vercel Pro for POC.
+3. **Later — AWS** — production when you outgrow Hobby (App Runner/ECS + managed Postgres, secrets in SSM/Secrets Manager).
 
 ## Primary surface
 

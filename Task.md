@@ -26,10 +26,10 @@
 
 | Phase | Where | Notes |
 |-------|--------|--------|
-| **POC** | **Local only** | `npm run build` + `npm run start -w @shortlist/web` on `localhost:3000`; MCP via local `node apps/mcp/dist/index.js`. JSON data-store is fine. |
-| **Later** | **AWS** | Move web + MCP + Postgres off the laptop (e.g. ECS/Fargate or App Runner + RDS/Aurora or Lightsail). Env secrets in SSM/Secrets Manager. No Vercel as the production host. |
+| **POC** | **Local** (dev) + **Vercel free tier** (public URL) | Day-to-day: `npm run dev` / `npm run start` on localhost. Ship a free Vercel project for a shareable HTTPS URL and Stripe webhook testing. Stay on Hobby limits; no paid Vercel. |
+| **Later** | **AWS** | When free-tier limits or ops needs bite: App Runner/ECS + RDS/Aurora (or Lightsail), secrets in SSM/Secrets Manager. |
 
-Do not spend POC time on cloud deploy. Ship affiliate forms + Stripe wiring against local.
+POC priority stays product (affiliate forms, Stripe Featured/Connect stubs), not cloud architecture. Vercel is a free staging front door; AWS is production when you outgrow it.
 
 ---
 
@@ -74,7 +74,7 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 | P1 | MCP package.json stack_signals | [#8](https://github.com/bhataditya81/MoneyAgent/issues/8) |
 | P1 | TOS before tosCashbackOk | [#9](https://github.com/bhataditya81/MoneyAgent/issues/9) |
 | P1 | Ledger import UI | [#10](https://github.com/bhataditya81/MoneyAgent/issues/10) |
-| P2 | Deploy to AWS (after local POC) | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
+| P2 | Vercel free tier, then AWS | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
 | P2 | Cursor MCP install docs | [#12](https://github.com/bhataditya81/MoneyAgent/issues/12) |
 
 ### Explicit backlog bans
