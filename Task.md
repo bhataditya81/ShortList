@@ -1,5 +1,8 @@
 # Shortlist — project plan & tasks
 
+**Repo:** https://github.com/bhataditya81/MoneyAgent  
+**Issues:** https://github.com/bhataditya81/MoneyAgent/issues  
+
 **One line:** G2’s comparison moment + Rakuten-style cashback, inside the repo — paid only when money moves. **Not** spinner / wait-state ads (Kickbacks).
 
 **Primary surface:** website (`apps/web`). **Optional:** MCP `search_tools`. Featured is labeled and never outranks a better organic fit.
@@ -48,30 +51,20 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 
 ## Open work (GitHub issues)
 
-Track these as independent issues. Prefer one PR per issue.
-
-### P0 — money & inventory
-
-1. **Join Railway affiliate** — copy refer link → `RAILWAY_AFFILIATE_URL` in `.env.local`. See `docs/affiliate-applications.md`.
-2. **Apply DigitalOcean via CJ** — on approval set `DIGITALOCEAN_AFFILIATE_URL`.
-3. **Apply Pinecone via PartnerStack** — Network + vendor approval → `PINECONE_AFFILIATE_URL`.
-4. **Stripe Featured live** — `STRIPE_SECRET_KEY`, `STRIPE_PRICE_FEATURED`, webhook → `/api/stripe/webhook` sets Featured slot. Remove reliance on admin secret in production.
-5. **Stripe Connect Express** — enable platform; implement `/api/connect/onboard`; pay when ledger ≥ $25.
-
-### P1 — product quality
-
-6. **Postgres instead of JSON store** — replace `packages/data-store` file store for multi-instance / Vercel.
-7. **Real auth** — Clerk or Auth.js (replace email-only demo session).
-8. **Repo-aware stack signals** — parse `package.json` / lockfile in MCP (or thin Cursor extension) and pass into `stack_signals`.
-9. **TOS gate workflow** — per-offer review before flipping `tosCashbackOk`; document in catalog notes.
-10. **Conversion import UX** — admin UI for `POST /api/ledger/confirm` (CSV from Railway/CJ/PS dashboards).
-
-### P2 — distribution (not directories)
-
-11. **Deploy website** — Vercel + env vars; custom domain.
-12. **Cursor MCP install docs** — one-click / copy config from README (plugin free only).
-13. **Do not** list on Anthropic software directory while Featured/affiliate CTAs exist in MCP.
-14. **Optional free Cursor Marketplace** listing if review-safe (no wait-state ads, honest ranking).
+| Priority | Issue | Link |
+|----------|-------|------|
+| P0 | Join Railway affiliate | [#1](https://github.com/bhataditya81/MoneyAgent/issues/1) |
+| P0 | DigitalOcean via CJ | [#2](https://github.com/bhataditya81/MoneyAgent/issues/2) |
+| P0 | Pinecone via PartnerStack | [#3](https://github.com/bhataditya81/MoneyAgent/issues/3) |
+| P0 | Stripe Featured production | [#4](https://github.com/bhataditya81/MoneyAgent/issues/4) |
+| P0 | Stripe Connect cash-out $25 | [#5](https://github.com/bhataditya81/MoneyAgent/issues/5) |
+| P1 | Postgres data-store | [#6](https://github.com/bhataditya81/MoneyAgent/issues/6) |
+| P1 | Clerk / Auth.js | [#7](https://github.com/bhataditya81/MoneyAgent/issues/7) |
+| P1 | MCP package.json stack_signals | [#8](https://github.com/bhataditya81/MoneyAgent/issues/8) |
+| P1 | TOS before tosCashbackOk | [#9](https://github.com/bhataditya81/MoneyAgent/issues/9) |
+| P1 | Ledger import UI | [#10](https://github.com/bhataditya81/MoneyAgent/issues/10) |
+| P2 | Deploy to Vercel | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
+| P2 | Cursor MCP install docs | [#12](https://github.com/bhataditya81/MoneyAgent/issues/12) |
 
 ### Explicit backlog bans
 
@@ -103,20 +96,10 @@ auth, db, hosting, email, payments, observability, errors, feature-flags, queues
 
 ## How to work independently
 
-1. Pick a GitHub issue from the list above (or create one that matches a bullet).
+1. Pick a GitHub issue from the table above.
 2. Branch: `feat/<issue-number>-short-name` or `fix/...`.
 3. Keep PRs small; reference `#<issue>`.
 4. Never enable cashback without `affiliate-tos` review.
 5. Run `npm run build` and `npm run assert-featured -w @shortlist/ranker` before merge.
 
-### Create GitHub repo + all issues (once)
-
-Requires [GitHub CLI](https://cli.github.com/) logged in (`gh auth login`):
-
-```powershell
-powershell -File scripts/bootstrap-github.ps1
-```
-
-That creates/pushes `MoneyAgent` (private by default) and opens P0–P2 issues matching this file.
-
-Issue templates mirror this file’s P0–P2 sections. Update this file when milestones land.
+Update this file when milestones land.
