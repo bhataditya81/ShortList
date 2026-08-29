@@ -26,10 +26,10 @@
 
 | Phase | Where | Notes |
 |-------|--------|--------|
-| **POC** | **Local** (dev) + **Vercel free tier** (public URL) | Day-to-day: `npm run dev` / `npm run start` on localhost. Ship a free Vercel project for a shareable HTTPS URL and Stripe webhook testing. Stay on Hobby limits; no paid Vercel. |
-| **Later** | **AWS** | When free-tier limits or ops needs bite: App Runner/ECS + RDS/Aurora (or Lightsail), secrets in SSM/Secrets Manager. |
+| **Until you’re satisfied** | **Local** + **Vercel free (Hobby)** | Develop locally; keep the public site on Vercel free tier. No paid Vercel. No AWS yet. |
+| **Only when you’re ready** | **AWS** | Move to AWS **after** you explicitly decide the product is worth it — not on a calendar deadline. |
 
-POC priority stays product (affiliate forms, Stripe Featured/Connect stubs), not cloud architecture. Vercel is a free staging front door; AWS is production when you outgrow it.
+Default: stay on free tier. AWS is optional and founder-gated.
 
 ---
 
@@ -74,7 +74,7 @@ Cashback-only at 30% of a typical 20% × 12-month affiliate ≈ **~6% of referre
 | P1 | MCP package.json stack_signals | [#8](https://github.com/bhataditya81/MoneyAgent/issues/8) |
 | P1 | TOS before tosCashbackOk | [#9](https://github.com/bhataditya81/MoneyAgent/issues/9) |
 | P1 | Ledger import UI | [#10](https://github.com/bhataditya81/MoneyAgent/issues/10) |
-| P2 | Vercel free tier, then AWS | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
+| P2 | Stay on Vercel free; AWS only when ready | [#11](https://github.com/bhataditya81/MoneyAgent/issues/11) |
 | P2 | Cursor MCP install docs | [#12](https://github.com/bhataditya81/MoneyAgent/issues/12) |
 
 ### Explicit backlog bans

@@ -10,7 +10,7 @@ This is **not** Kickbacks. We do not sell wait-state or spinner ads.
 - Optional MCP: `search_tools({ category, stack_signals })` — same ranker. Featured never outranks a better organic fit.
 - Live public CPA (apply yourself): Railway (instant), DigitalOcean (CJ), Pinecone (PartnerStack). See [docs/affiliate-applications.md](docs/affiliate-applications.md).
 - Distribution rules: [docs/distribution.md](docs/distribution.md) — site first; do not list on Anthropic’s directory as an ad vehicle; Cursor Marketplace plugins stay free.
-- **Hosting:** local + **Vercel free tier** for POC URL → **AWS** later. See [Task.md](Task.md).
+- **Hosting:** local + **Vercel free** until you’re satisfied → **AWS only then**. See [Task.md](Task.md).
 
 ## Run (local)
 

@@ -3,8 +3,10 @@
 ## Hosting
 
 1. **Local** — day-to-day build and MCP (`localhost:3000`, `node apps/mcp/dist/index.js`).
-2. **POC public URL — Vercel free (Hobby) tier** — shareable HTTPS for demos and Stripe webhooks. Stay on free limits; do not pay for Vercel Pro for POC.
-3. **Later — AWS** — production when you outgrow Hobby (App Runner/ECS + managed Postgres, secrets in SSM/Secrets Manager).
+2. **Public POC — Vercel Hobby (free)** — shareable HTTPS and Stripe webhooks. Stay on free tier until the founder is satisfied with the product.
+3. **AWS — only when you’re ready** — optional promotion to App Runner/ECS + managed Postgres. Not scheduled; do not migrate just because the code works.
+
+Default: free tier until you say otherwise.
 
 ## Primary surface
 
