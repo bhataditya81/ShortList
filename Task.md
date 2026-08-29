@@ -109,4 +109,14 @@ auth, db, hosting, email, payments, observability, errors, feature-flags, queues
 4. Never enable cashback without `affiliate-tos` review.
 5. Run `npm run build` and `npm run assert-featured -w @shortlist/ranker` before merge.
 
+### Create GitHub repo + all issues (once)
+
+Requires [GitHub CLI](https://cli.github.com/) logged in (`gh auth login`):
+
+```powershell
+powershell -File scripts/bootstrap-github.ps1
+```
+
+That creates/pushes `MoneyAgent` (private by default) and opens P0–P2 issues matching this file.
+
 Issue templates mirror this file’s P0–P2 sections. Update this file when milestones land.
