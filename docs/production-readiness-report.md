@@ -105,3 +105,23 @@ Overall  NOT PRODUCTION READY
 ```
 
 Your P0 playbook remains valid for affiliate/Stripe **operator** work, but **do not** treat a raw Hobby deploy as production until the must-fix list lands.
+
+---
+
+## POC hardening status (2026-08-30 follow-up)
+
+Engineering landed for a **Railway-only private POC** (cashback still off):
+
+| Must-fix | Status |
+|-----------|--------|
+| No `dev-featured` default; admin uses `timingSafeEqual` | Done |
+| Login `next=` open redirect blocked | Done |
+| `AUTH_SECRET` required at runtime; build-safe placeholder | Done |
+| Schema inlined + UNIQUE(`click_id`); longer IDs | Done |
+| `/r` requires session + owner; no `subId` leak; HTTPS allowlist | Done |
+| `docs/distribution.md` requires `AUTH_SECRET` + `DATABASE_URL` on Vercel | Done |
+| Email allowlist via `SHORTLIST_ALLOWED_EMAILS` | Done (partial — not full magic link) |
+| Connect remains 501 | Unchanged (correct for POC) |
+
+Still **not** production: email-only credentials (mitigated by invite list), Stripe Featured/#5, DO/Pinecone.
+

@@ -35,6 +35,11 @@ export async function getUserById(userId: string, path?: string): Promise<User |
   return json.getUserById(userId, path);
 }
 
+export async function getClickById(clickId: string, path?: string): Promise<Click | null> {
+  if (usePostgres()) return pg.getClickById(clickId);
+  return json.getClickById(clickId, path);
+}
+
 export async function recordClick(userId: string, offerId: string, path?: string): Promise<Click> {
   if (usePostgres()) return pg.recordClick(userId, offerId);
   return json.recordClick(userId, offerId, path);

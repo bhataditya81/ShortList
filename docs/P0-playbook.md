@@ -50,18 +50,20 @@ RAILWAY_AFFILIATE_URL=https://railway.com/?referralCode=YOUR_CODE
 
 5. Restart `npm run dev` / redeploy. Catalog id `railway` picks this up via `withAffiliateOverlay` in `@shortlist/catalog`.
 6. **Keep `tosCashbackOk: false`** until you read Railway’s terms for paying end users a cut.
-7. Smoke test: log in on site → open Hosting → if cashback UI appears only when `tosCashbackOk` is true; until then “Open site” is fine. Tracking still works once `affiliateUrl` is set — today cashback button requires `tosCashbackOk && affiliateUrl`. So for POC tracking you may temporarily need a code path that uses affiliate URL without promising cashback, **or** use Featured / redirect tests. Check `OfferCard`: cashback link only if both flags. **Action:** after setting URL, either leave organic “Open site” (homepage) or we later add “Tracked signup (no cashback)” — for now verify overlay with a quick local log or temporary Featured slot pointing at railway.
+7. Smoke test: log in → Hosting → Railway should show **Tracked signup (no cashback yet)** → `/go/railway` → `/r/{clickId}` → your referral URL (with `clickid` query param). Hit `/api/health` and expect `RAILWAY_AFFILIATE_URL: true`.
 
 **Verify overlay locally:**
 
 ```bash
-# After setting env and rebuilding packages
+# After setting env and rebuilding packages (env must be present in the process)
+# From apps/web with .env.local loaded, or:
+set RAILWAY_AFFILIATE_URL=https://railway.com/?referralCode=YOUR_CODE
 node --input-type=module -e "import { getOffer } from './packages/catalog/dist/index.js'; console.log(getOffer('railway'));"
 ```
 
 Expect `affiliateUrl` non-null.
 
-**Close #1** when URL is in env (local + Vercel) and `getOffer('railway').affiliateUrl` is set.
+**Close #1** when URL is in env (local + Vercel) and `/api/health` reports Railway configured.
 
 ---
 

@@ -1,5 +1,6 @@
 -- Shortlist data-store schema (Neon / Postgres compatible)
--- Apply manually or via ensureSchema() on first PG connection.
+-- Prefer applying this in the Neon SQL editor for POC.
+-- ensureSchema() strips line comments then runs each statement.
 
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
@@ -22,9 +23,10 @@ CREATE TABLE IF NOT EXISTS ledger (
   offer_id TEXT NOT NULL,
   click_id TEXT NOT NULL REFERENCES clicks (id),
   status TEXT NOT NULL CHECK (status IN ('pending', 'confirmed', 'payable', 'paid')),
-  amount_cents INTEGER NOT NULL,
+  amount_cents INTEGER NOT NULL CHECK (amount_cents > 0),
   note TEXT NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT ledger_click_id_unique UNIQUE (click_id)
 );
 
 CREATE INDEX IF NOT EXISTS ledger_user_id_idx ON ledger (user_id);

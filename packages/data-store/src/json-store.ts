@@ -61,6 +61,10 @@ export function getUserById(userId: string, path = defaultStorePath()): User | n
   return loadStore(path).users.find((u) => u.id === userId) ?? null;
 }
 
+export function getClickById(clickId: string, path = defaultStorePath()): Click | null {
+  return loadStore(path).clicks.find((c) => c.id === clickId) ?? null;
+}
+
 export function recordClick(userId: string, offerId: string, path = defaultStorePath()): Click {
   const store = loadStore(path);
   const click: Click = {
@@ -80,8 +84,13 @@ export function confirmConversion(opts: {
   note?: string;
   path?: string;
 }): LedgerEntry | null {
+  if (!Number.isFinite(opts.amountCents) || opts.amountCents <= 0) {
+    throw new Error("amountCents must be a positive number");
+  }
   const path = opts.path ?? defaultStorePath();
   const store = loadStore(path);
+  const existing = store.ledger.find((l) => l.clickId === opts.clickId);
+  if (existing) return existing;
   const click = store.clicks.find((c) => c.id === opts.clickId);
   if (!click) return null;
   const entry: LedgerEntry = {

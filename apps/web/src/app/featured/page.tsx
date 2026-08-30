@@ -1,11 +1,12 @@
 import { CATEGORIES, CATEGORY_LABELS, getOffer, isCategoryId } from "@shortlist/catalog";
 import { loadStore, setFeatured } from "@shortlist/data-store";
 import { redirect } from "next/navigation";
+import { adminSecretsEqual } from "@/lib/poc-security";
 
 async function adminFeatured(formData: FormData) {
   "use server";
   const secret = String(formData.get("secret") || "");
-  if (secret !== (process.env.FEATURED_ADMIN_SECRET || "dev-featured")) {
+  if (!adminSecretsEqual(secret)) {
     redirect("/featured?err=secret");
   }
   const category = String(formData.get("category") || "");

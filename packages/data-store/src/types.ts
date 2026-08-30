@@ -30,5 +30,5 @@ export type StoreFile = {
 };
 
 export function id(prefix: string): string {
-  return `${prefix}_${randomUUID().slice(0, 8)}`;
+  return `${prefix}_${randomUUID().replace(/-/g, "")}`;
 }

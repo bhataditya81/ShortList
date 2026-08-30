@@ -3,8 +3,8 @@
 ## Hosting
 
 1. **Local** — day-to-day build and MCP (`localhost:3000`, `node apps/mcp/dist/index.js`).
-2. **Public POC — Vercel Hobby (free)** — shareable HTTPS and Stripe webhooks. Stay on free tier until the founder is satisfied with the product.
-3. **AWS — only when you’re ready** — optional promotion to App Runner/ECS + managed Postgres. Not scheduled; do not migrate just because the code works.
+2. **Public POC — Vercel Hobby (free)** — shareable HTTPS. Stay on free tier until the founder is satisfied.
+3. **AWS — only when you’re ready** — not scheduled.
 
 Default: free tier until you say otherwise.
 
@@ -19,12 +19,19 @@ No paid Vercel plan required. Do **not** deploy AWS until the founder explicitly
    - **Install:** `cd ../.. && npm install`
    - **Build:** `cd ../.. && npm run build:packages && npm run build -w @shortlist/web`
 5. **Environment variables** — Vercel → Project → Settings → Environment Variables. Copy from [`.env.example`](../.env.example):
-   - **Required for POC:** `SESSION_SECRET`, `FEATURED_ADMIN_SECRET`
-   - **Optional (Featured checkout):** `STRIPE_SECRET_KEY`, `STRIPE_PRICE_FEATURED`, `STRIPE_WEBHOOK_SECRET`
-   - **Affiliate redirects (after you join programs):** `RAILWAY_AFFILIATE_URL`, `DIGITALOCEAN_AFFILIATE_URL`, `PINECONE_AFFILIATE_URL`
-   - **Not needed yet:** no `DATABASE_URL` or auth-provider secrets in the current scaffold (in-memory store + stub session). Add these only when P1 persistence lands.
-6. **Deploy.** Hobby free tier is sufficient for POC traffic and Stripe webhooks.
-7. **Stay on free tier** until product validation. AWS migration is founder-gated — see [Task.md](../Task.md).
+
+   | Var | Required for POC? | Notes |
+   |-----|-------------------|--------|
+   | `AUTH_SECRET` | **Yes** | `openssl rand -base64 32` — Auth.js JWT signing |
+   | `FEATURED_ADMIN_SECRET` | **Yes** | Non-default; never `dev-featured` |
+   | `DATABASE_URL` | **Yes on Vercel** | Neon free Postgres — JSON file store is ephemeral on serverless |
+   | `RAILWAY_AFFILIATE_URL` | **Yes for #1** | Your https Railway referral URL |
+   | `SHORTLIST_ALLOWED_EMAILS` | Recommended | Comma-separated invite list for private beta |
+   | Stripe vars | Optional | Featured checkout (#4) only |
+
+6. Apply `packages/data-store/sql/schema.sql` in the Neon SQL editor once (or rely on runtime `ensureSchema()`).
+7. **Deploy.** Hit `/api/health` — expect `"ok": true` when secrets + Railway + DB are set.
+8. **Stay on free tier** until product validation. AWS migration is founder-gated — see [Task.md](../Task.md).
 
 #### `apps/web/vercel.json` (already in repo)
 
@@ -46,6 +53,8 @@ Local parity before connecting Vercel:
 npm install
 npm run build
 ```
+
+Copy `.env.example` → `apps/web/.env.local` and fill secrets + `RAILWAY_AFFILIATE_URL`.
 
 ## Primary surface
 
